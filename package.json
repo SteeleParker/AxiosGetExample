@@ -1,0 +1,24 @@
+{
+  "name": "axiosgetexample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SteeleParker/AxiosGetExample.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SteeleParker/AxiosGetExample/issues"
+  },
+  "homepage": "https://github.com/SteeleParker/AxiosGetExample#readme",
+  "dependencies": {
+    "aws-sdk": "^2.402.0",
+    "axios": "^0.18.0",
+    "dynamodb-local": "0.0.25"
+  }
+}

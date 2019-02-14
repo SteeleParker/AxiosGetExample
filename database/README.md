@@ -1,0 +1,1 @@
+Blank Directory must exist for dynamoDB-local to start
