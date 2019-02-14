@@ -2,7 +2,12 @@ const axios = require('axios');
 const DynamoDB = require('aws-sdk/clients/dynamodb');
 const DynamoDBLocal = require("dynamodb-local");
 
-/* These functions would go into your database singleton alongside your DDB Config et el. */
+/*
+  These functions and config ordinarily would be inside a database singleton
+  
+  For the purposes of this example they are inline
+*/
+
 let ddbConfig = {
   endpoint: 'http://localhost:8000/',
   apiVersion: '2012-08-10',
@@ -67,9 +72,13 @@ async function ensureTableExists(verificationRecord) {
     }
   });
 }
+/* End Database Helpers */
 
-
-/* This should be inside a definitions file somewhere but for now we will write it inline */
+/*
+  This would ordinarily be inside a definitions file
+  
+  For the purposes of this example it is inline
+ */
 const dataTable = {
   definition: {
     TableName: 'PROFIT_HISTORY',
@@ -91,24 +100,29 @@ const dataTable = {
     }
   }
 };
+/* End Definitions */
 
-/* Begin the actual application */
+/* Begin Application */
 console.log('Starting Application');
+
+// Start DynamoDB
 DynamoDBLocal.launch(8000, `${process.cwd()}/database`, ['-sharedDb']).then(() => {
-  console.log("DynamoDB listening on 8000");
   
+  // DynamoDB has started
+  console.log("DynamoDB listening on 8000");
   console.log('Retrieving Data');
   
   /*
-    As we do not need dynamoDB tables until AFTER the axios result has been retrieved
-    We can begin the task of ensuring the table exists now and handle the outcome later
+    As we do not need the result of the table check until AFTER the axios result has been
+    retrieved we may begin the task and handle the outcome later
    */
-  
   let tableExistsPromise = ensureTableExists(dataTable);
   
+  // Retrieve our data with Axios
   axios.get("https://google.com")
   .then( result => {
     
+    // Create a handler for the table check promise
     tableExistsPromise
       .then( result => {
         console.log("Table Exists!");
@@ -122,11 +136,12 @@ DynamoDBLocal.launch(8000, `${process.cwd()}/database`, ['-sharedDb']).then(() =
         };
         
         console.log("Inserting Data");
+        // Insert the data into DynamoDB
         documentClient.put(putItemInput, (err, data) => {
           console.log("Data was inserted");
           
+          // Explicitly tell the application we are done
           console.log("done");
-          
           process.exit(0);
         });
       });
